@@ -1,5 +1,6 @@
 package com.exolius.simplebackup;
 
+import org.apache.commons.io.FilenameUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
@@ -219,10 +220,21 @@ public class SimpleBackup extends JavaPlugin {
 
     private Collection<File> foldersForBackup() {
         List<File> result = new ArrayList<File>();
-        for (String additionalFolder : additionalFolders) {
+        //I cannot stand sameline braces. 2hard5me2read
+        for (String additionalFolder : additionalFolders)
+        {
             File f = new File(".", additionalFolder);
-            if (f.exists()) {
-                result.add(f);
+            if (f.exists())
+            {
+                switch (FilenameUtils.getExtension(f.getName()).toLowerCase())
+                {
+                    case "db": //Coreprotect basically
+                    case "hash": //dynmap
+                    case "png": //also dynmap
+                        break;
+                    default:
+                        result.add(f);
+                }
             }
         }
         return result;
