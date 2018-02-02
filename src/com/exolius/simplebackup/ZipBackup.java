@@ -1,5 +1,7 @@
 package com.exolius.simplebackup;
 
+import org.apache.commons.io.FilenameUtils;
+
 import java.io.*;
 import java.net.URI;
 import java.util.Date;
@@ -50,27 +52,36 @@ public class ZipBackup extends BackupFileManager {
     }
 
     private void zipFiles(URI root, File source, ZipOutputStream zip) throws IOException {
-        if (source.isDirectory()) {
-            for (String file : source.list()) {
+        if (source.isDirectory())
+        {
+            for (String file : source.list())
                 zipFiles(root, new File(source, file), zip);
+            return;
+        }
+
+        switch (FilenameUtils.getExtension(source.getName()).toLowerCase())
+        {
+            case "db": //Coreprotect basically
+            case "hash": //dynmap
+            case "png": //also dynmap
+                return;
+        }
+
+        ZipEntry entry = new ZipEntry(root.relativize(source.toURI()).getPath());
+        zip.putNextEntry(entry);
+        InputStream in = null;
+        try {
+            in = new FileInputStream(source);
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = in.read(buffer)) > 0) {
+                zip.write(buffer, 0, bytesRead);
             }
-        } else {
-            ZipEntry entry = new ZipEntry(root.relativize(source.toURI()).getPath());
-            zip.putNextEntry(entry);
-            InputStream in = null;
-            try {
-                in = new FileInputStream(source);
-                byte[] buffer = new byte[4096];
-                int bytesRead;
-                while ((bytesRead = in.read(buffer)) > 0) {
-                    zip.write(buffer, 0, bytesRead);
-                }
-            } catch (IOException e) {
-                logger.warning("Unable to backup file: " + source.getAbsolutePath() + "(" + e.getMessage() + ")");
-            } finally {
-                if (in != null) {
-                    in.close();
-                }
+        } catch (IOException e) {
+            logger.warning("Unable to backup file: " + source.getAbsolutePath() + "(" + e.getMessage() + ")");
+        } finally {
+            if (in != null) {
+                in.close();
             }
         }
     }
