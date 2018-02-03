@@ -59,6 +59,8 @@ public class ZipBackup extends BackupFileManager {
             return;
         }
 
+        System.out.println(source.getName() + " " + FilenameUtils.getExtension(source.getName().toLowerCase()));
+
         switch (FilenameUtils.getExtension(source.getName()).toLowerCase())
         {
             case "db": //Coreprotect basically
