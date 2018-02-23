@@ -1,6 +1,7 @@
 name: SimpleBackup
 main: com.exolius.simplebackup.SimpleBackup
 version: ${project.version}
+softdepend: [Multiverse-Core]
 
 commands:
    sbackup:
