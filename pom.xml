@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.exolius.simplebackup</groupId>
   <artifactId>SimpleBackup</artifactId>
-  <version>1.8</version>
+  <version>1.8.1</version>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <resources>
@@ -36,14 +36,14 @@
     <dependency>
         <groupId>org.spigotmc</groupId>
         <artifactId>spigot-api</artifactId>
-        <version>1.12.2-R0.1-SNAPSHOT</version>
+        <version>1.13.1-R0.1-SNAPSHOT</version>
         <scope>provided</scope>
     </dependency>
     <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <version>2.6</version>
-    </dependency>
+    <!--<dependency>-->
+      <!--<groupId>commons-io</groupId>-->
+      <!--<artifactId>commons-io</artifactId>-->
+      <!--<version>2.6</version>-->
+    <!--</dependency>-->
   </dependencies>
 </project>

@@ -1,8 +1,10 @@
 package com.exolius.simplebackup;
 
-import org.apache.commons.io.FilenameUtils;
-
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.util.Date;
 import java.util.logging.Level;
@@ -24,6 +26,7 @@ public class ZipBackup extends BackupFileManager {
         Date date = new Date();
         File backupFile = new File(backupFolder, getFileName(date));
         ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(backupFile));
+        zip.setLevel(9);
         try {
             for (File worldFolder : worldFolders) {
                 logger.info("Backing up " + worldFolder);
@@ -59,13 +62,13 @@ public class ZipBackup extends BackupFileManager {
             return;
         }
 
-        switch (FilenameUtils.getExtension(source.getName()).toLowerCase())
-        {
-            case "db": //Coreprotect basically
-            case "hash": //dynmap
-            case "png": //also dynmap
-                return;
-        }
+//        switch (FilenameUtils.getExtension(source.getName()).toLowerCase())
+//        {
+//            case "db": //Coreprotect basically
+//            case "hash": //dynmap
+//            case "png": //also dynmap
+//                return;
+//        }
 
         ZipEntry entry = new ZipEntry(root.relativize(source.toURI()).getPath());
         zip.putNextEntry(entry);
